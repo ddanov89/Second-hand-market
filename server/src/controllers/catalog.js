@@ -5,32 +5,27 @@ const catalogRouter = Router();
 
 catalogRouter.get('/catalog', async (req, res) => {
     const products = await getAllProducts();
-    res.render('catalog', { products });
+    res.json(products);
 });
 
 catalogRouter.get('/catalog/:id', async (req, res) => {
-    const productId = req.params.id;
-    const product = await getProductById(productId);
+    
+    const movie = await getProductById(req.params.id);
 
-    if (!product) {
-        res.status(404).render('404');
+    if (!movie) {
+        res.status(404).json({ code: 404, message: 'Item not found!' });
+        return;
     }
-    product.subscribers = product.subscribers.length;
 
-    product.hasUser = res.locals.hasUser;
-    product.isAuthor = req.user._id == product.author.toString();
-    product.hasBeenSubscribed = Boolean(product.subscribers.find(b => b.toString() == req.user._id));
-
-    res.render('details', { product: product });
+    res.json(movie);
 });
 
 catalogRouter.get('/search', async (req, res) => {
-
     const { name, category } = req.query;
 
     const products = await searchProducts(name, category);
 
-    res.render('search', { data: { name, category }, products });
+    res.json({ data: { name, category }, products });
 });
 
 module.exports = { catalogRouter };
