@@ -87,6 +87,7 @@ productRouter.post('/subscribe/:id', async (req, res) => {
 
 productRouter.get('/profile', isUser(), async (req, res) => {
     const userData = decodeToken(req);
+    
     const userId = userData._id.toString();
     const products = await getAllMySavedProducts(userId);
     const email = userData.email.toString();

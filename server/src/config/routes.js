@@ -8,7 +8,7 @@ function configRoutes(app) {
     app.use(userRouter);
 
     app.use('*', (req, res) => {
-        res.status(404).end();
+        res.status(404).json({message: 'Resource not found!'});
     });
 }
 
