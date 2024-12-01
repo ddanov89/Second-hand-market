@@ -8,20 +8,20 @@ const { createProduct, updateProduct, deleteProductById, subscribeToProduct, get
 const productRouter = Router();
 
 productRouter.post('/create', isUser(),
-    body('name').trim().isLength({ min: 4 }).withMessage('Name should be at least 4 characters long!'),
-    body('image').trim().isURL({ require_tld: false, require_protocol: true }).withMessage('Image should be start with http:// or https://!'),
-    body('description').trim().isLength({ min: 10 }).withMessage('Description should be at least 10 characters long!'),
-    body('price').trim().isLength({ min: 1, max: 5 }).withMessage('Price should be a non-negative number between 1 and 5!'),
-    body('category').trim(),
+    // body('name').trim().isLength({ min: 4 }).withMessage('Name should be at least 4 characters long!'),
+    // body('image').trim().isURL({ require_tld: false, require_protocol: true }).withMessage('Image should start with http:// or https://!'),
+    // body('description').trim().isLength({ min: 10 }).withMessage('Description should be at least 10 characters long!'),
+    // body('price').trim().isLength({ min: 1, max: 5 }).withMessage('Price should be a non-negative number between 1 and 5!'),
+    // body('category').trim(),
     async (req, res) => {
         const userData = decodeToken(req);
         const userId = userData?._id.toString();
 
         try {
-            const validation = validationResult(req);
-            if (validation.errors.length) {
-                throw validation.errors;
-            }
+            // const validation = validationResult(req);
+            // if (validation.errors.length) {
+            //     throw validation.errors;
+            // }
             const result = await createProduct(req.body, userId);
             res.json(result);
         } catch (error) {
@@ -85,9 +85,11 @@ productRouter.post('/subscribe/:id', async (req, res) => {
     }
 });
 
+
+
+
 productRouter.get('/profile', isUser(), async (req, res) => {
     const userData = decodeToken(req);
-    
     const userId = userData._id.toString();
     const products = await getAllMySavedProducts(userId);
     const email = userData.email.toString();

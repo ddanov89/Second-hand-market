@@ -64,9 +64,8 @@ userRouter.get('/logout', isUser(), (req, res) => {
 });
 
 userRouter.get('/user', (req, res) => {
-    console.log("The request body is: " + req);
-    const id = req.body.userId;
-    console.log(id);
+    const userData = decodeToken(req);
+    
     
 })
 
