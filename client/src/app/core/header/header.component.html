@@ -1,0 +1,19 @@
+<header>
+  <!-- Navigation -->
+  <a id="logo" href="/"><img id="logo-img" src="logo1.webp" alt="" /></a>
+
+  <nav>
+    
+      <a routerLink="/catalog">Catalog</a>
+      <a routerLink="/search">Search</a>
+    
+    @if (!isLoggedIn) {
+      <a routerLink="/login">Login</a>
+      <a routerLink="/register">Register</a>
+  } @else {
+        <a routerLink="/create">Create Product</a>
+        <a routerLink="/profile">Profile</a>
+        <a (click)="logout()">Logout</a>
+    }
+  </nav>
+</header>

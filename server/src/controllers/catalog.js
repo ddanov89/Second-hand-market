@@ -10,14 +10,14 @@ catalogRouter.get('/catalog', async (req, res) => {
 
 catalogRouter.get('/catalog/:id', async (req, res) => {
     
-    const movie = await getProductById(req.params.id);
+    const product = await getProductById(req.params.id);
 
-    if (!movie) {
+    if (!product) {
         res.status(404).json({ code: 404, message: 'Item not found!' });
         return;
     }
 
-    res.json(movie);
+    res.json(product);
 });
 
 catalogRouter.get('/search', async (req, res) => {

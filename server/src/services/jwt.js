@@ -25,9 +25,10 @@ function verifyToken(token) {
 
 function decodeToken(req) {
 
-    let token = req.headers['x-authorization'];
-    const userData = jwt.decode(token);
+    let token = req.cookies.token;
 
+    const userData = jwt.decode(token);
+    
     return userData;
 }
 

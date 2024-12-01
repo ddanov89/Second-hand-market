@@ -1,0 +1,32 @@
+<section class="profile-page">
+    <div class="profile-card">
+        <div class="top-section">
+            <i class="message fas fa-envelope"></i>
+            <i class="notif fas fa-bell"></i>
+            <div class="pic">
+                <img src="profile.png">
+            </div>
+            <div class="email">User email: {{email}}</div>
+        </div>
+
+        <div class="bottom-section">
+            <h2>My Cart</h2>
+        </div>
+    </div>
+    <div class="products-list">
+        @if (profileProducts.length !== 0) {
+        @for (product of profileProducts; track $index) {
+        <div class="product">
+            <img src={{product?.image}} alt="example1" />
+            <p>
+                <span class="name">{{product.name}}</span>
+            </p>
+            <p><strong>Price:</strong><span class="price">{{product?.price}} BGN</span></p>
+            <a [routerLink]="['/details', product._id]" class="details-btn">Details</a>
+        </div>
+        }
+        } @else {
+        <h2 class="no-record-in-profile">You have not added any products to your cart yet...</h2>
+        }
+    </div>
+</section>

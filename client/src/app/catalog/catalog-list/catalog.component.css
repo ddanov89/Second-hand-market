@@ -1,0 +1,71 @@
+#dashboard {
+    padding-bottom: 50px;
+    display: block;
+    background-image: url(../../../../public/wallpaper1.webp);
+    background-position: 0 auto;
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+  
+  h2 {
+    font-family: 'Roboto', sans-serif;
+    text-align: center;
+    color:#fff;
+    text-shadow: 1px 1px rgb(92, 92, 169);
+    letter-spacing: 4px;
+    font-size: 4em;
+  }
+  
+  .product img {
+    margin-left: 20px;
+    margin-right: 50px;
+    height: 170px;
+    width: 170px;
+  }
+  
+  .name,
+  .price {
+    font-size: 1.5em;
+  }
+  
+  .product {
+    display: flex;
+    justify-content: space-between;
+    max-width: 70%;
+    margin: 25px auto;
+    background-color: white;
+    border-radius: 5px;
+    border: 2px ridge rgb(210, 208, 208);
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2), 0 3px 3px 0 rgba(0, 0, 0, 0.24);
+  }
+  
+  .details-btn {
+    text-decoration: none;
+    margin: auto 50px;
+    font-size: 21px;
+    width: 130px;
+    padding: 10px;
+    text-align: center;
+    font-weight: bolder;
+    color: white;
+    background: #d1d1f9;
+    text-shadow: 1px 1px black;
+    letter-spacing: 2px;
+  }
+  
+  .product p {
+    margin: auto;
+    color: #d1d1f9;
+    text-shadow: 1px 1px rgb(116, 116, 193);
+    font-size: 21px;
+    min-width: 25%;
+    max-width: 30%;
+    text-align: center;
+  }
+  
+  .product span {
+    padding: 10px;
+    margin: auto;
+  }
+  
+  

@@ -8,11 +8,11 @@ const { createProduct, updateProduct, deleteProductById, subscribeToProduct, get
 const productRouter = Router();
 
 productRouter.post('/create', isUser(),
-    body('name').trim().isLength({ min: 4 }).withMessage('Name should be at least 4 characters long!'),
-    body('image').trim().isURL({ require_tld: false, require_protocol: true }).withMessage('Image should be start with http:// or https://!'),
-    body('description').trim().isLength({ min: 10 }).withMessage('Description should be at least 10 characters long!'),
-    body('price').trim().isLength({ min: 1, max: 5 }).withMessage('Price should be a non-negative number between 1 and 5!'),
-    body('category').trim(),
+body('name').notEmpty().isLength({min: 4}).trim(),
+body('image').notEmpty().trim(),
+body('description').notEmpty().isLength({ min: 10, max:300 }).trim(),
+body('price').notEmpty().isNumeric({min: 0, max: 10000}).trim(),
+body('category').notEmpty().trim(),
     async (req, res) => {
         const userData = decodeToken(req);
         const userId = userData?._id.toString();
@@ -31,17 +31,18 @@ productRouter.post('/create', isUser(),
     });
 
 productRouter.put('/edit/:id', isUser(),
-    body('name').trim().isLength({ min: 4 }).withMessage('Name should be at least 4 characters long!'),
-    body('image').trim().isURL({ require_tld: false, require_protocol: true }).withMessage('Image should be start with http:// or https://!'),
-    body('description').trim().isLength({ min: 10 }).withMessage('Description should be at least 10 characters long!'),
-    body('price').trim().isLength({ min: 1, max: 5 }).withMessage('Price should be a non-negative number between 1 and 5!'),
-    body('category').trim(),
+    body('name').notEmpty().isLength({min: 4}).trim(),
+    body('image').notEmpty().trim(),
+    body('description').notEmpty().isLength({ min: 10, max:300 }).trim(),
+    body('price').notEmpty().isNumeric({min: 0, max: 10000}).trim(),
+    body('category').notEmpty().trim(),
     async (req, res) => {
         const userData = decodeToken(req);
+        
         const userId = userData._id.toString();
         try {
             const validation = validationResult(req);
-
+            
             if (validation.errors.length) {
                 throw validation.errors;
             }
@@ -75,7 +76,8 @@ productRouter.delete('/delete/:id', isUser(), async (req, res) => {
 
 productRouter.post('/subscribe/:id', async (req, res) => {
     const productId = req.params.id;
-    const userId = req.body.userId
+    const userId = req.body.userId;
+    
     try {
 
         const result = await subscribeToProduct(productId, userId);
@@ -89,6 +91,7 @@ productRouter.get('/profile', isUser(), async (req, res) => {
     const userData = decodeToken(req);
     const userId = userData._id.toString();
     const products = await getAllMySavedProducts(userId);
+    
     const email = userData.email.toString();
     res.json({ products, email });
 });

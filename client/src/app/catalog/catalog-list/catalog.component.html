@@ -1,0 +1,19 @@
+<section id="dashboard">
+    <h2>Product Catalog</h2>
+
+     @if (products.length !== 0) {
+      @for (product of products; track $index) {
+        <div class="product">
+          <img src={{product.image}} alt="example1" />
+          <p>
+            <span class="name">{{product.name}}</span>
+          </p>
+          <p><strong>Price:</strong><span class="price">{{product.price}} $</span></p>
+          <a class="details-btn" [routerLink]="product._id">Details</a>
+        </div>
+      }
+     } @else {
+   
+    <h2>No offers yet.</h2>
+     }
+  </section>

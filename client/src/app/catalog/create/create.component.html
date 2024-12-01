@@ -1,0 +1,64 @@
+<main id="create">
+  <section id="create-container">
+    <div class="create-container-info">
+      <h1>Add Product</h1>
+      <form name="create-form" #form="ngForm" (ngSubmit)="create(form)">
+        <label for="category">Category:</label>
+        <select autocomplete="off" id="category" name="category" (change)="selectChangeHandler($event)"
+        >
+          <option value="---" hidden="hidden">---</option>
+          <option value="Clothes">Clothes</option>
+          <option value="Car-Seats">Car-Seats</option>
+          <option value="Strollers">Strollers</option>
+          <option value="Toys">Toys</option>
+          <option value="Cribs">Cribs</option>
+        </select>
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" ngModel #inputName="ngModel" required minlength="4">
+        @if (inputName?.touched) {
+        <div class="errorContainer">
+          @if (inputName?.errors?.['required']) {
+          <p>Name is required!</p>
+          }
+          @if (inputName?.errors?.['minlength']) {
+          <p>Name must be at least 4 characters long!</p>
+          }
+        </div>
+        }
+        <label for="image">Image:</label>
+        <input type="text" id="image" name="image" placeholder="http://..." ngModel #inputImage="ngModel" required>
+        @if (inputImage?.touched) {
+        <div class="errorContainer">
+          @if (inputImage?.errors?.['required']) {
+          <p>Image is required!</p>
+          }
+        </div>
+        }
+        <label for="price">Price:</label>
+        <input type="number" id="price" name="price" ngModel #inputPrice="ngModel" required>
+        @if (inputPrice?.touched) {
+        <div class="errorContainer">
+          @if (inputPrice?.errors?.['required']) {
+          <p>Price is required!</p>
+          }
+        </div>
+        }
+        <label for="description">Description:</label>
+        <textarea id="description" name="description" ngModel #inputDescription="ngModel" minlength="10"
+          required></textarea>
+        @if (inputDescription?.touched) {
+        <div class="errorContainer">
+          @if (inputDescription?.errors?.['required']) {
+          <p>Description is required!</p>
+          }
+          @if (inputDescription?.errors?.['minlength']) {
+          <p>Description must be at least 10 characters long!</p>
+          }
+        </div>
+        }
+        <input type="submit" id="btn" value="CREATE" [disabled]="form.invalid"
+          [style]="{background: form.invalid ? 'grey':'#fcfdcd', color: form.invalid ? '#fff' : '#fff'}">
+      </form>
+    </div>
+  </section>
+</main>

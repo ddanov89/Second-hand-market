@@ -35,7 +35,34 @@ async function login(identity, password) {
     return user;
 }
 
+function getUserById(userId) {
+    const user = User.findById(userId);
+    return user;
+}
+
+function getProfileInfo(req, res, next) {
+    const { _id: userId } = req.user;
+    console.log(req.user);
+    
+
+    User.findOne({ _id: userId }, { password: 0, __v: 0 }) //finding by Id and returning without password and __v
+        .then(user => { res.status(200).json(user) })
+        .catch(next);
+}
+
+async function checkUserId(userId) {
+    const user = await User.find().lean();
+    const isValid = user.find(el => el._id.toString() == userId);
+    if (isValid) {
+        return true;
+    }
+    return false;
+}
+
 module.exports = {
     register,
-    login
+    login,
+    getProfileInfo,
+    checkUserId,
+    getUserById
 };

@@ -1,0 +1,17 @@
+footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    background-color: #fcfdcd; 
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 8vh;
+    color: #cff1fb; 
+    text-shadow: 1px 1px #000;
+    text-align: center;
+    letter-spacing: 3px;
+    font-weight: bold;
+    font-size: 2rem;
+}

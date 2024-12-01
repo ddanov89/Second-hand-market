@@ -11,7 +11,7 @@ async function getProductById(id) {
 }
 
 async function createProduct(data, authorId) {
-
+    
     const record = new Product({
         name: data.name,
         image: data.image,

@@ -1,0 +1,76 @@
+<section id="register">
+    <div class="form">
+      <h2>Register</h2>
+      <form class="login-form" #form="ngForm" (ngSubmit)="register(form)">
+        <input
+          type="text"
+          name="email"
+          id="register-email"
+          placeholder="email"
+          ngModel
+          #emailInput="ngModel"
+          required
+          [appEmail] = 'domains'
+          minlength="10"
+        />
+
+        @if (emailInput?.touched) {
+          <div class="errorContainer">
+              @if (emailInput?.errors?.['required']) {
+              <p>Email is required!</p>
+              }
+
+              @if (emailInput?.errors?.['emailValidator']) {
+                <p>Email must be valid!</p>
+              }
+              @if (emailInput?.errors?.['minlength']) {
+                <p>Email must be at least 10 characters long!</p>
+              }
+          </div>
+          }
+        <input
+          type="password"
+          name="password"
+          id="register-password"
+          placeholder="password"
+          ngModel
+          #passwordInput="ngModel"
+          required
+          minlength="4"
+        />
+
+        @if (passwordInput?.touched) {
+          <div class="errorContainer">
+              @if (passwordInput?.errors?.['required']) {
+                <p>Password is required!</p>
+              }
+              @if (passwordInput?.errors?.['minlength']) {
+                <p>Password must be at least 4 characters long!</p>
+              }
+          </div>
+          }
+        <input
+          type="password"
+          name="rePass"
+          id="rePass"
+          placeholder="repeat password"
+          ngModel
+          #rePassInput="ngModel"
+          required
+        />
+
+        @if (rePassInput?.touched) {
+          <div class="errorContainer">
+              @if (rePassInput?.errors?.['required']){
+                <p>Repeat password is required!</p>
+              }
+              @if (rePassInput?.errors?.['matchPasswordValidator']) {
+                <p>Passwords do not match!</p>
+              }
+          </div>
+          }
+        <button [disabled]="form.invalid" [style]="{background: form.invalid ? 'grey':'#fcfdcd', color: form.invalid ? '#fff' : '#fff'}">Register</button>
+        <p class="message">Already registered? <a routerLink="/login">Login</a></p>
+      </form>
+    </div>
+  </section>
