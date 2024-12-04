@@ -17,7 +17,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
   
   profileProducts: Product [] = [];
-
+  isError = false;
   email: string | null | undefined = null;
 
   productSubscription: Subscription | null = null;
@@ -29,6 +29,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
       const user = this.userService.getUser();
       this.email = user?.email;
       this.profileProducts = profile.products;
+      this.isError = true;
     });
   }
 

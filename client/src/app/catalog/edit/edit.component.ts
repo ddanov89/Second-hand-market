@@ -63,7 +63,7 @@ export class EditComponent implements OnInit, OnDestroy {
     this.productSubscription = this.apiService
       .updateProduct(productId,  { name, image, price, category, description} )
       .subscribe(() => {
-        this.router.navigate(['/catalog']);
+        this.router.navigate([`/catalog/${productId}`]);
       });
   }
 
