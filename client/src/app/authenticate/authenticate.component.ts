@@ -10,6 +10,7 @@ import { Subscription } from 'rxjs';
   styleUrl: './authenticate.component.css',
 })
 export class AuthenticateComponent implements OnInit, OnDestroy {
+
   isAuthenticating = true;
   userSubscription: Subscription | null = null;
 
@@ -17,7 +18,9 @@ export class AuthenticateComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     const user = this.userService.getUser();
+    
     const userId = user?._id;
+    
     this.userSubscription = this.userService.getUserProfile(userId).subscribe({
       next: () => {
         this.isAuthenticating = false;

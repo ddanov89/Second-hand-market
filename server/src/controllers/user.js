@@ -66,17 +66,19 @@ userRouter.get('/logout', isUser(), (req, res) => {
 userRouter.get("/user", (req, res) => {
 
     const user = req.body;
+    
     const token = req.cookies?.token;
+    console.log(token);
     
     if (token) {
         user.accessToken = token;
     }
     res.json(user);
-})
+});
 
 userRouter.get('/:userId', async (req, res) => {
     const { _id: userId } = req.user;
-    // console.log(req.user);
+    console.log(req.user);
     
     const isValid = await checkUserId(userId);
     if (!isValid) {

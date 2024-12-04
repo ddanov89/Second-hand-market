@@ -75,12 +75,15 @@ productRouter.delete('/delete/:id', isUser(), async (req, res) => {
 });
 
 productRouter.post('/subscribe/:id', async (req, res) => {
+
     const productId = req.params.id;
-    const userId = req.body.userId;
-    
+    const user = decodeToken(req);
+    const userId = user?._id;
+
     try {
 
         const result = await subscribeToProduct(productId, userId);
+        
         res.json(result);
     } catch (error) {
         res.json({ errors: parseError(error).errors });

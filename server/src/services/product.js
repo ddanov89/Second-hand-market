@@ -79,16 +79,18 @@ async function searchProducts(name, category) {
 }
 
 async function subscribeToProduct(productId, userId) {
-    const record = await Product.findById(productId);
 
+    const record = await Product.findById(productId);
+    
     if (!record) {
+        
         throw new Error('Record not found' + productId);
     }
     if (record.author.toString() == userId) {
-        throw new Error('Cannot buy your own product!');
+        throw new Error('Cannot subscribe your own product!');
     }
-    if (record.subscribers.find(subscriber => subscriber.toString() == userId)) {
-        throw new Error('You can only buy this product once!');
+    if (record.subscribers.find(subscriber => subscriber?.toString() == userId)) {
+        throw new Error('You can only subscribe this product once!');
     }
 
     record.subscribers.push(userId);
@@ -96,6 +98,7 @@ async function subscribeToProduct(productId, userId) {
     await record.save();
     return record;
 }
+
 async function getAllMySavedProducts(userId) {
     return await Product.find({ author: userId }).lean();
 }

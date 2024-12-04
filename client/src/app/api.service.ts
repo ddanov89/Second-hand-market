@@ -40,8 +40,7 @@ export class ApiService {
     return result;
   }
 
-  subscribeToProduct(productId: string | null | undefined, userId: string | null | undefined) {
-    
+  subscribeToProduct(productId: string | null | undefined, userId: string | null | undefined) { 
     return this.http.post<Product>(`/api/subscribe/${productId}`, userId);
   }
 
