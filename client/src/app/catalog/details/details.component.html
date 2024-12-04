@@ -8,7 +8,7 @@
             <div class="product-text">
                 <h1 id="name">{{product?.name}}</h1>
                 <h3 id="category"> {{product?.category}}</h3>
-                <p id="price"> <br>{{product?.price}} $</p>
+                <p id="price"> <br>{{product?.price | currency: 'USD': 'symbol-narrow': '2.2-2'}}</p>
                 <p id="description">Description: <br>{{product?.description}}</p>
             </div>
 

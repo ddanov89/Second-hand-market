@@ -4,6 +4,7 @@ import { UserService } from '../user.service';
 import { FormsModule, NgForm } from '@angular/forms';
 import { DOMAINS } from '../../constants/constant';
 import { EmailDirective } from '../../directives/email.directive';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-register',
@@ -12,21 +13,28 @@ import { EmailDirective } from '../../directives/email.directive';
   templateUrl: './register.component.html',
   styleUrl: './register.component.css',
 })
-export class RegisterComponent {
+export class RegisterComponent implements OnDestroy {
   
   domains = DOMAINS;
+  userSubscription: Subscription | null = null;
   
   constructor(private userService: UserService, private router: Router) {}
 
   register(form: NgForm) {
+
     if (form.invalid) {
       return;
     }
+
     const {email, password, rePass} = form.value;
 
-    this.userService.register(email!, password!, rePass!).subscribe((user) => {
+    this.userSubscription = this.userService.register(email!, password!, rePass!).subscribe((user) => {
       form.reset();
       this.router.navigate(['/home']);
     });
+  }
+
+  ngOnDestroy(): void {
+    this.userSubscription?.unsubscribe();
   }
 }

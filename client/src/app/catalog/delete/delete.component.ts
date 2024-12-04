@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { UserService } from '../../user/user.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ApiService } from '../../api.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-delete',
@@ -10,7 +11,10 @@ import { ApiService } from '../../api.service';
   templateUrl: './delete.component.html',
   styleUrl: './delete.component.css',
 })
-export class DeleteComponent {
+export class DeleteComponent implements OnDestroy {
+  
+  productSubscription: Subscription | null = null;
+
   constructor(
     private apiService: ApiService,
     private route: ActivatedRoute,
@@ -26,5 +30,9 @@ export class DeleteComponent {
     this.apiService.deleteProduct(productId).subscribe(() => {
       this.router.navigate(['/catalog']);
     });
+  }
+
+  ngOnDestroy(): void {
+    this.productSubscription?.unsubscribe();
   }
 }

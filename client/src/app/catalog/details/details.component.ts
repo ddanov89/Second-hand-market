@@ -1,23 +1,26 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Product } from '../../types/product';
 import { ApiService } from '../../api.service';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { AuthUser } from '../../types/user';
 import { UserService } from '../../user/user.service';
+import { CurrencyPipe } from '@angular/common';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-details',
   standalone: true,
-  imports: [RouterLink],
+  imports: [RouterLink, CurrencyPipe],
   templateUrl: './details.component.html',
   styleUrl: './details.component.css',
 })
-export class DetailsComponent implements OnInit {
+export class DetailsComponent implements OnInit, OnDestroy {
   @Input('productProp') product: Product | null = null;
   isUser = false;
   user: AuthUser | null | undefined;
   hasSubscribed = false;
   isOwner = false;
+  productSubscription: Subscription | null = null;
 
   constructor(
     private apiService: ApiService,
@@ -29,7 +32,7 @@ export class DetailsComponent implements OnInit {
   ngOnInit(): void {
     const productId = this.route.snapshot.params['productId'];
 
-    this.apiService.getProductDetails(productId).subscribe((product) => {
+    this.productSubscription = this.apiService.getProductDetails(productId).subscribe((product) => {
       this.product = product;
       this.isUser = this.userService.isLogged;
 
@@ -49,8 +52,12 @@ export class DetailsComponent implements OnInit {
     this.user = this.userService.getUser();
     const userId = this.user?._id;
 
-    this.apiService.subscribeToProduct(productId, userId).subscribe(() => {
+    this.productSubscription = this.apiService.subscribeToProduct(productId, userId).subscribe(() => {
       this.router.navigate([`catalog/${productId}`]);
     });
+  }
+
+  ngOnDestroy(): void {
+    this.productSubscription?.unsubscribe();
   }
 }

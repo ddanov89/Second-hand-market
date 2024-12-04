@@ -16,7 +16,12 @@ export const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   {path: 'home', component: HomeComponent},
 
-  {path: 'search',loadComponent: () =>import('./catalog/search/search.component').then((component) => component.SearchComponent),},
+  {path: 'search',
+    children: [
+      {path: '', loadComponent: () =>import('./catalog/search/search.component').then((component) => component.SearchComponent),},
+      {path: 'catalog/:productId', loadComponent: () =>import('./catalog/details/details.component').then((component) => component.DetailsComponent),},
+    ],
+  },
   {path: 'catalog',
     children: [
       {path: '', loadComponent: () => import('./main/main.component').then((component) => component.MainComponent),},

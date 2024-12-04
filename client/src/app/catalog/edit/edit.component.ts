@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -10,6 +10,7 @@ import {
 import { ApiService } from '../../api.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Product } from '../../types/product';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-edit',
@@ -18,7 +19,7 @@ import { Product } from '../../types/product';
   templateUrl: './edit.component.html',
   styleUrl: './edit.component.css',
 })
-export class EditComponent implements OnInit {
+export class EditComponent implements OnInit, OnDestroy {
 
   editForm = new FormGroup({
     name: new FormControl('', [Validators.required, Validators.minLength(4)]),
@@ -31,6 +32,8 @@ export class EditComponent implements OnInit {
     ]),
   });
 
+  productSubscription : Subscription | null = null;
+
   constructor(
     private apiService: ApiService,
     private route: ActivatedRoute,
@@ -38,7 +41,7 @@ export class EditComponent implements OnInit {
   ) {}
   ngOnInit(): void {
     const productId = this.route.snapshot.params['productId'];
-    this.apiService.getProductDetails(productId).subscribe((product) => {
+    this.productSubscription = this.apiService.getProductDetails(productId).subscribe((product) => {
       this.editForm.get('name')?.setValue(product.name);
       this.editForm.get('image')?.setValue(product.image);
       this.editForm.get('price')?.setValue(product.price);
@@ -57,10 +60,14 @@ export class EditComponent implements OnInit {
     const category = this.editForm.value.category;
     const description = this.editForm.value.description;
 
-    this.apiService
+    this.productSubscription = this.apiService
       .updateProduct(productId,  { name, image, price, category, description} )
       .subscribe(() => {
         this.router.navigate(['/catalog']);
       });
+  }
+
+  ngOnDestroy(): void {
+    this.productSubscription?.unsubscribe();
   }
 }

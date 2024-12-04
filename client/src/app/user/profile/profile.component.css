@@ -1,6 +1,6 @@
 .profile-page {
   width: 100%;
-  height: 100vh;
+  height: 150vh;
   background-image: url(../../../../public/wallpaper1.webp);
   background-repeat: no-repeat;
   background-position: 0 center;
@@ -70,10 +70,9 @@
 }
 
 .name {
-  color: #f1f1f1;
+  color: #000;
   font-size: 28px;
   letter-spacing: 2px;
-  text-transform: uppercase;
 }
 
 .email {
@@ -143,36 +142,72 @@
   opacity: 0;
 }
 
+.product-list {
+  display: flex;
+  gap: 2em;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
 .products-list {
   width: 100rem;
   position: relative;
   margin: 0 auto;
-  margin-top: 15px;
+  margin-top: 50px;
   box-shadow: 0 0 10px #00000070;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
   margin-bottom: 20px;
-  background-color: #f1f1f1;
-  opacity: 0.9;
+  background-color: #fff;
+  /* opacity: 0.7; */
 }
 
 .product {
-  background-color: #27ae60;
+  width: 500px;
+  height: 250px;
+  margin-top: 30px;
+  margin-left: 20px;
+  margin-bottom: 20px;
+  margin-right: 10px;
+  border: 2px solid #d1d1f9;
   border-radius: 30px;
-  margin: 20px 30px;
-  margin-bottom: 10px;
-  width: 25rem;
-  height: 48rem;
-  position: relative;
-  color: rgb(19, 66, 27);
-  box-shadow: 0 0 10px #00000070;
+  background: #cff1fb;
+  display: flex;
+  justify-content: space-evenly;
+  text-align: center;
+  align-items: center;
 }
 
-.info-container-profile img {
-  width: 100%;
-  height: 40rem;
-  border-radius: 30px;
+.media {
+  border: 2px solid rgba(169, 152, 198, 0.781);
+  border-radius: 3em;
+  margin-left: 1em;
+  width: 200px;
+  height: 200px;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+}
+
+
+.details-btn {
+  text-decoration: none;
+  margin: 0 auto;
+  font-size: 21px;
+  width: 130px;
+  border-radius: 3em;
+  padding: 10px;
+  text-align: center;
+  font-weight: bolder;
+  color: white;
+  background: #d1d1f9;
+  text-shadow: 1px 1px black;
+  letter-spacing: 2px;
 }
 
 .no-record-in-profile {

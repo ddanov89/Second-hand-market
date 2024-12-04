@@ -5,8 +5,7 @@
         <form class="search-form" name="search-form" [formGroup]="searchForm" (ngSubmit)="search()">
             <input type="text" class="search-product" name="name" placeholder="Search here..." formControlName="name">
             <select autocomplete="off" id="category" name="category" formControlName="category">
-                <option value="" hidden="hidden" selected></option>
-                <option value="---" hidden="hidden">---</option>
+                <option value="---" hidden="hidden" selected>---</option>
                 <option value="Clothes">Clothes</option>
                 <option value="Car-Seats">Car-Seats</option>
                 <option value="Strollers">Strollers</option>
@@ -32,12 +31,17 @@
                 }@else {
                 @for (product of searchProducts; track $index) {
                 <div class="product">
-                    <img src={{product.image}} alt="example1" />
-                    <p>
-                        <span class="name">{{product.name}}</span>
-                    </p>
-                    <p><strong>Price:</strong><span class="price">{{product.price}} $</span></p>
-                    <a class="details-btn" [routerLink]="product._id">Details</a>
+            
+                        <img class="media" src={{product?.image}} alt="example1" />
+                    
+                    <div class="content">
+                            <p class="name">{{product?.name}}</p>
+                       
+                        <p class="price">{{product?.price | currency: 'USD': 'symbol-narrow': '2.2-2' }} </p>
+
+                        <a class="details-btn" [routerLink]="['/details',product?._id]">Details</a>
+                    </div>
+
                 </div>
                 }
                 }

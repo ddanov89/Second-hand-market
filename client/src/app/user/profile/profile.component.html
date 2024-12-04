@@ -1,11 +1,15 @@
 <section class="profile-page">
+
     <div class="profile-card">
+
         <div class="top-section">
+
             <i class="message fas fa-envelope"></i>
             <i class="notif fas fa-bell"></i>
             <div class="pic">
                 <img src="profile.png">
             </div>
+
             <div class="email">User email: {{email}}</div>
         </div>
 
@@ -13,16 +17,22 @@
             <h2>My Cart</h2>
         </div>
     </div>
+
     <div class="products-list">
         @if (profileProducts.length !== 0) {
         @for (product of profileProducts; track $index) {
-        <div class="product">
-            <img src={{product?.image}} alt="example1" />
-            <p>
-                <span class="name">{{product.name}}</span>
-            </p>
-            <p><strong>Price:</strong><span class="price">{{product?.price}} BGN</span></p>
-            <a [routerLink]="['/details', product._id]" class="details-btn">Details</a>
+            <div class="product">
+            
+                <img class="media" src={{product?.image}} alt="example1" />
+            
+            <div class="content">
+                    <p class="name">{{product?.name}}</p>
+               
+                <p class="price">{{product?.price | currency : 'USD':'symbol-narrow': '2.2-2'}} </p>
+
+                <a class="details-btn" [routerLink]="['/details',product?._id]">Details</a>
+            </div>
+
         </div>
         }
         } @else {

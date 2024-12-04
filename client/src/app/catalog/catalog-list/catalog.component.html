@@ -8,8 +8,8 @@
           <p>
             <span class="name">{{product.name}}</span>
           </p>
-          <p><strong>Price:</strong><span class="price">{{product.price}} $</span></p>
-          <a class="details-btn" [routerLink]="product._id">Details</a>
+          <p><strong>Price:</strong><span class="price">{{product.price | currency: 'USD': 'symbol-narrow': '2.2-2'}}</span></p>
+          <a class="details-btn" [routerLink]="product?._id">Details</a>
         </div>
       }
      } @else {

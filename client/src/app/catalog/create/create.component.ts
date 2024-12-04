@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { ApiService } from '../../api.service';
 import { FormsModule, NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-create',
@@ -10,15 +11,16 @@ import { Router } from '@angular/router';
   templateUrl: './create.component.html',
   styleUrl: './create.component.css'
 })
-export class AddComponent {
+export class AddComponent implements OnDestroy {
+
+  productSubscription: Subscription | null = null;
 
   constructor(private apiService: ApiService, private router: Router){}
 
   category: string = '';
 
-  //event handler for the select element's change event
   selectChangeHandler (event: any) {
-    //update the ui
+
     this.category = event.target.value;
   }
 
@@ -27,10 +29,14 @@ export class AddComponent {
     if (form.invalid) {
       return;
     }
-    const {name, image, price, description} = form.value;
-    this.apiService.createProduct(name, image, description, price, this.category).subscribe(() => {
-      this.router.navigate(['/catalog']);
-    })
     
+    const {name, image, price, description} = form.value;
+
+    this.productSubscription = this.apiService.createProduct(name, image, description, price, this.category).subscribe(() => {
+      this.router.navigate(['/catalog']);
+    });
+  }
+  ngOnDestroy(): void {
+    this.productSubscription?.unsubscribe();
   }
 }

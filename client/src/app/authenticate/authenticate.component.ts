@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { UserService } from '../user/user.service';
 import { ActivatedRoute } from '@angular/router';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-authenticate',
@@ -9,17 +10,16 @@ import { ActivatedRoute } from '@angular/router';
   templateUrl: './authenticate.component.html',
   styleUrl: './authenticate.component.css',
 })
-export class AuthenticateComponent implements OnInit {
-  
+export class AuthenticateComponent implements OnInit, OnDestroy {
   isAuthenticating = true;
+  userSubscription: Subscription | null = null;
 
-  constructor(private userService: UserService, private route: ActivatedRoute) {}
+  constructor(private userService: UserService) {}
 
   ngOnInit(): void {
-
     const user = this.userService.getUser();
     const userId = user?._id;
-    this.userService.getUserProfile(userId).subscribe({
+    this.userSubscription = this.userService.getUserProfile(userId).subscribe({
       next: () => {
         this.isAuthenticating = false;
       },
@@ -30,5 +30,9 @@ export class AuthenticateComponent implements OnInit {
         this.isAuthenticating = false;
       },
     });
+  }
+
+  ngOnDestroy(): void {
+    this.userSubscription?.unsubscribe();
   }
 }
