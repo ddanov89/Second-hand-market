@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Product, Profile } from './types/product';
+import { Product, Profile, SearchProducts } from './types/product';
 
 @Injectable({
   providedIn: 'root',
@@ -35,7 +35,9 @@ export class ApiService {
   }
 
   searchProducts(name: string | null | undefined, category: string | null | undefined){
-    return this.http.get<Product[]>(`api/search` + `?=${name}${category}`);
+    const result =  this.http.get<SearchProducts>(`/api/search` + `?name=${name}&category=${category}`);
+    console.log("the products are", result);
+    return result;
   }
 
   subscribeToProduct(productId: string | null | undefined, userId: string | null | undefined) {

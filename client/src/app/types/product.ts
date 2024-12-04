@@ -16,3 +16,14 @@ export interface Profile {
   products: Product[];
   email: AuthUser;
 }
+
+export interface SearchProducts {
+  products: Product[];
+  data: SearchQuery;
+}
+
+export interface SearchQuery {
+  name: string;
+  category: string;
+}
+

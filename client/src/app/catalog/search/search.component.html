@@ -5,46 +5,44 @@
         <form class="search-form" name="search-form" [formGroup]="searchForm" (ngSubmit)="search()">
             <input type="text" class="search-product" name="name" placeholder="Search here..." formControlName="name">
             <select autocomplete="off" id="category" name="category" formControlName="category">
-                    <option value="" hidden="hidden" selected></option>
-                    <option value="---" hidden="hidden">---</option>
-                    <option value="Clothes">Clothes</option>
-                    <option value="Car-Seats">Car-Seats</option>
-                    <option value="Strollers">Strollers</option>
-                    <option value="Toys">Toys</option>
-                    <option value="Cribs">Cribs</option>
-                </select>
+                <option value="" hidden="hidden" selected></option>
+                <option value="---" hidden="hidden">---</option>
+                <option value="Clothes">Clothes</option>
+                <option value="Car-Seats">Car-Seats</option>
+                <option value="Strollers">Strollers</option>
+                <option value="Toys">Toys</option>
+                <option value="Cribs">Cribs</option>
+            </select>
             <button type="submit" class="btn-search" [disabled]="searchForm.invalid">Search</button>
         </form>
 
         @if (isSearched) {
         <div class="search-result">
             <div class="search-list">
-                @if(isLoading && !isError){
-                    <span class="loader"></span>
-                } @else if(products.length == 0 && !isError && !isLoading){
-                    <div class="no-match">
-                        <p>There are no matching products found!</p>
-                    </div>
-                } @else if(isError){
-                    <div class="message">
-                        <p>Something went wrong, please try again later!</p>
-                    </div>
-                }@else {
-                    @if (isSearched) {
-                        @for (product of searchedResults; track $index) {
-                                <div class="product">
-                                    <img src={{product.image}} alt="example1" />
-                                    <p>
-                                      <span class="name">{{product.name}}</span>
-                                    </p>
-                                    <p><strong>Price:</strong><span class="price">{{product.price}} $</span></p>
-                                    <a class="details-btn" [routerLink]="product._id">Details</a>
-                                  </div>
-                                }
-                            }
-                        }
-                    </div>
+                <!-- @if(isLoading && !isError){ -->
+                <!-- <span class="loader"></span> -->
+                @if(searchProducts.length == 0){
+                <div class="no-match">
+                    <p>There are no matching products found!</p>
                 </div>
-            }
+                <!-- } @else if(isError){ -->
+                <!-- <div class="message">
+                        <p>Something went wrong, please try again later!</p>
+                    </div> -->
+                }@else {
+                @for (product of searchProducts; track $index) {
+                <div class="product">
+                    <img src={{product.image}} alt="example1" />
+                    <p>
+                        <span class="name">{{product.name}}</span>
+                    </p>
+                    <p><strong>Price:</strong><span class="price">{{product.price}} $</span></p>
+                    <a class="details-btn" [routerLink]="product._id">Details</a>
+                </div>
+                }
+                }
+            </div>
+        </div>
+        }
     </section>
 </main>

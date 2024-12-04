@@ -24,7 +24,7 @@ catalogRouter.get('/search', async (req, res) => {
     const { name, category } = req.query;
 
     const products = await searchProducts(name, category);
-
+    
     res.json({ data: { name, category }, products });
 });
 
