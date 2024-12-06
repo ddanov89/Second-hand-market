@@ -4,6 +4,7 @@ const { createToken } = require('../services/jwt');
 const { parseError } = require('../util');
 const { login, register, checkUserId, getUserById } = require('../services/user');
 const { isGuest, isUser } = require('../middlewares/guards');
+const auth = require('../middlewares/auth');
 
 const userRouter = Router();
 
@@ -63,12 +64,11 @@ userRouter.get('/logout', isUser(), (req, res) => {
     res.json(null);
 });
 
-userRouter.get("/user", (req, res) => {
+userRouter.get("/users", (req, res) => {
 
     const user = req.body;
     
     const token = req.cookies?.token;
-    console.log(token);
     
     if (token) {
         user.accessToken = token;
@@ -76,15 +76,19 @@ userRouter.get("/user", (req, res) => {
     res.json(user);
 });
 
-userRouter.get('/:userId', async (req, res) => {
+userRouter.get('/profile', auth(), async (req, res) => {
+    console.log("We are calling the user on cushions");
+    
     const { _id: userId } = req.user;
-    console.log(req.user);
+    console.log("The user is: ", userId);
     
     const isValid = await checkUserId(userId);
+    
     if (!isValid) {
         res.status(400).json({ message: "Resource not found!" });
     }
     const user = await getUserById(userId).lean();
+    
     res.json(user);
 });
 

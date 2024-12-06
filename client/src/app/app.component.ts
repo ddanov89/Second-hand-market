@@ -12,5 +12,5 @@ import { AuthenticateComponent } from './authenticate/authenticate.component';
   styleUrl: './app.component.css'
 })
 export class AppComponent {
-  title = 'second-hand-store';
+
 }

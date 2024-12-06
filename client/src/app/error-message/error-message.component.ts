@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { ErrorMessageService } from '../error.service';
+import { Component, OnInit, signal } from '@angular/core';
 import { Router } from '@angular/router';
+import { ErrorMessageService } from './error-message.service';
 
 @Component({
   selector: 'app-error-message',
@@ -11,21 +11,13 @@ import { Router } from '@angular/router';
 })
 export class ErrorMessageComponent implements OnInit {
 
-  errorMessage: string | null = "";
+  errorMessage= signal("");
 
-    constructor(private errService: ErrorMessageService, private router: Router) { }
+    constructor(private errMsgService: ErrorMessageService, private router: Router) { }
 
     ngOnInit(): void {
-        this.errService.errorMessage$.subscribe((err) => {
-            this.errorMessage = err;
-        })
-    }
-
-    onBack() {
-        if (this.errorMessage == "Resource not found!") {
-            this.router.navigate(['/home']);
-        } else {
-            history.back();
-        }
+        this.errMsgService.errorMessage$.subscribe((err: any) => {
+            this.errorMessage.set(err?.error.message);
+        });
     }
 }

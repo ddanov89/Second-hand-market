@@ -36,7 +36,6 @@ export class ApiService {
 
   searchProducts(name: string | null | undefined, category: string | null | undefined){
     const result =  this.http.get<SearchProducts>(`/api/search` + `?name=${name}&category=${category}`);
-    console.log("the products are", result);
     return result;
   }
 

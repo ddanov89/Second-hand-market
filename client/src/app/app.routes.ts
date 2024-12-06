@@ -11,6 +11,7 @@ import { EditComponent } from './catalog/edit/edit.component';
 import { AuthGuard } from './guards/auth.guard';
 import { SearchComponent } from './catalog/search/search.component';
 import { guestGuard } from './guards/guest.guard';
+import { ErrorMessageComponent } from './error-message/error-message.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -36,7 +37,8 @@ export const routes: Routes = [
   {path: 'login', canActivate: [guestGuard], component: LoginComponent},
   {path: 'profile', loadComponent: () => import('./user/profile/profile.component').then(component => component.ProfileComponent)},
   {path: 'register', canActivate: [guestGuard],component: RegisterComponent},
-
+  
+  {path: 'error', component: ErrorMessageComponent},
   { path: '404', component: notFoundComponent },
   { path: '**', redirectTo: '/404' },
 ];

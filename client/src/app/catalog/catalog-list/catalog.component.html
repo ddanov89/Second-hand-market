@@ -1,4 +1,8 @@
-<section id="dashboard">
+@if (isLoading) {
+  <app-loader />
+} @else {
+  <section id="dashboard">
+
     <h2>Product Catalog</h2>
 
      @if (products.length !== 0) {
@@ -17,3 +21,4 @@
     <h2>No offers yet.</h2>
      }
   </section>
+}

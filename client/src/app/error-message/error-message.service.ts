@@ -1,4 +1,3 @@
-import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 
@@ -12,12 +11,6 @@ export class ErrorMessageService {
   constructor() { }
 
   setError(err:any): void {
-      if (err instanceof HttpErrorResponse) {
-          this.errorMessage$$.next(err.error.message);
-      } else if (err instanceof Error) {
-          this.errorMessage$$.next(err.message);
-      } else {
-          this.errorMessage$$.next("Error occurs!");
-      }
+      this.errorMessage$$.next(err);
   }
 }

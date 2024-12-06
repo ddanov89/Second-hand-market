@@ -42,7 +42,6 @@ function getUserById(userId) {
 
 function getProfileInfo(req, res, next) {
     const { _id: userId } = req.user;
-    console.log(req.user);
     
 
     User.findOne({ _id: userId }, { password: 0, __v: 0 }) //finding by Id and returning without password and __v

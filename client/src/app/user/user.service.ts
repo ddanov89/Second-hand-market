@@ -46,14 +46,11 @@ export class UserService implements OnDestroy {
     return this.user;
   }
 
-//   getUserProfile(userId : string) {
-//     return this.http.get<AuthUser | null>(`/api/${userId}`)
-//         .pipe(tap((user) => this.user$$.next(user)));
-// }
-
-getUserProfile(userId: string | null | undefined) {
-  return this.http.get<AuthUser>(`/api/user/${userId}`)
+getUserProfile() {
+  const result =  this.http.get<AuthUser>(`/api/users/profile`)
       .pipe(tap((user) => this.user$$.next(user)));
+      console.log("We are calling profile endpoint", result);
+      return result;
 }
 
   ngOnDestroy(): void {

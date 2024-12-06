@@ -22,6 +22,7 @@ export class HeaderComponent implements OnDestroy {
 
   logout() {
     this.userSubscription = this.userService.logout().subscribe(() => {
+      localStorage.clear();
       this.router.navigate(['/login']);
     });
   }
