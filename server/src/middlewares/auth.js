@@ -8,7 +8,7 @@ function auth(redirectUnauthenticated = true) {
     return function (req, res, next) {
         console.log("Logging from auth method");
         
-        const token = req.cookies['auth-cookie'] || '';
+        const token = req.cookies['token'] || '';
         console.log("The token is: ", token);
         Promise.all([
             verifyToken(token),

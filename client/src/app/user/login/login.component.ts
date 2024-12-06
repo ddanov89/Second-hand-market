@@ -5,17 +5,18 @@ import { FormsModule, NgForm } from '@angular/forms';
 import { EmailDirective } from '../../directives/email.directive';
 import { DOMAINS } from '../../constants/constant';
 import { Subscription } from 'rxjs';
+import { ErrorMessageComponent } from '../../error-message/error-message.component';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [RouterLink, FormsModule, EmailDirective],
+  imports: [RouterLink, FormsModule, EmailDirective, ErrorMessageComponent],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css',
 })
 export class LoginComponent implements OnDestroy {
   domains = DOMAINS;
-  errMessage = signal('');
+  errMessage: string | null = '';
   userSubscription: Subscription | null = null;
 
   constructor(private userService: UserService, private router: Router) {}
@@ -29,10 +30,16 @@ export class LoginComponent implements OnDestroy {
 
     this.userSubscription = this.userService
       .login(email, password)
-      .subscribe(() => {
-        form.reset();
-        this.router.navigate(['/home']);
-      });
+      .subscribe({
+        next: (user) => {
+            this.errMessage="";
+            form.reset();
+            this.router.navigate(['/home']);
+        },
+        error: (err) => {
+            this.errMessage=err.error?.message;
+        }
+    });
   }
 
   ngOnDestroy(): void {

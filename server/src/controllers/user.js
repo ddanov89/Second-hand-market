@@ -18,7 +18,7 @@ userRouter.post('/login', isGuest(),
         try {
             const userInformation = await login(email, password);
             const token = createToken(userInformation);
-            res.cookie('auth-cookie', token);
+            res.cookie('token', token);
             res.json({
                 _id: userInformation._id,
                 email: userInformation.email,
@@ -46,7 +46,7 @@ userRouter.post('/register', isGuest(),
 
             const userInformation = await register(email, password);
             const token = createToken(userInformation);
-            res.cookie('auth-cookie', token);
+            res.cookie('token', token);
             res.json({
                 _id: userInformation._id,
                 email: userInformation.email,
@@ -60,7 +60,7 @@ userRouter.post('/register', isGuest(),
     });
 
 userRouter.get('/logout', isUser(), (req, res) => {
-    res.clearCookie('auth-cookie');
+    res.clearCookie('token');
     res.json(null);
 });
 
