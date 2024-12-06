@@ -32,8 +32,7 @@ export class RegisterComponent implements OnDestroy {
 
     this.userSubscription = this.userService
       .register(email!, password!, rePass!)
-      .subscribe((user) => {
-        localStorage.setItem('auth-cookie', JSON.stringify(user));
+      .subscribe(() => {
         form.reset();
         this.router.navigate(['/home']);
       });

@@ -10,6 +10,8 @@ export class UserService implements OnDestroy {
   private user$$ = new BehaviorSubject<AuthUser | null>(null);
   private user$ = this.user$$.asObservable();
 
+  USER_KEY = 'auth-cookie';
+
   private user: AuthUser | null = null;
 
   userSubscription: Subscription | null = null;
@@ -19,8 +21,17 @@ export class UserService implements OnDestroy {
   }
 
   constructor(private http: HttpClient) {
+    const savedUser = localStorage.getItem(this.USER_KEY);
+    if (savedUser) {
+      this.user$$.next(JSON.parse(savedUser));
+    }
     this.userSubscription = this.user$.subscribe((user) => {
       this.user = user;
+      if (user) {
+        localStorage.setItem(this.USER_KEY, JSON.stringify(user));
+      } else {
+        localStorage.removeItem(this.USER_KEY);
+      }
     });
   }
 
