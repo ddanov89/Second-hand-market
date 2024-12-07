@@ -60,7 +60,6 @@ export class UserService implements OnDestroy {
 getUserProfile() {
   const result =  this.http.get<AuthUser>(`/api/users/profile`)
       .pipe(tap((user) => this.user$$.next(user)));
-      console.log("We are calling profile endpoint", result);
       return result;
 }
 

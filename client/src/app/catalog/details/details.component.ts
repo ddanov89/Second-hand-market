@@ -15,7 +15,6 @@ import { Subscription } from 'rxjs';
   styleUrl: './details.component.css',
 })
 export class DetailsComponent implements OnInit, OnDestroy {
-
   @Input('productProp') product: Product | null = null;
   isUser = false;
   user: AuthUser | null | undefined;
@@ -36,31 +35,34 @@ export class DetailsComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     const productId = this.route.snapshot.params['productId'];
 
-    this.productSubscription = this.apiService.getProductDetails(productId).subscribe((product) => {
-      this.product = product;
-      this.totalSubs = product.subscribers.length;
-      this.isUser = this.userService.isLogged;
+    this.productSubscription = this.apiService
+      .getProductDetails(productId)
+      .subscribe((product) => {
+        this.product = product;
+        this.totalSubs = product.subscribers.length;
+        this.isUser = this.userService.isLogged;
 
-      this.user = this.userService.getUser();
+        this.user = this.userService.getUser();
 
-      this.hasSubscribed = Boolean(
-        this.product?.subscribers.find(
-          (subscriber) => subscriber?._id == this.user?._id
-        )
-      );
-      this.isOwner = this.product?.author.toString() == this.user?._id;
-    });
+        this.hasSubscribed = Boolean(
+          this.product?.subscribers.find(
+            (subscriber) => subscriber?.toString() == this.user?._id
+          )
+        );
+        this.isOwner = this.product?.author.toString() == this.user?._id;
+      });
   }
 
-  getAllSubscribers(){
-
+  getAllSubscribers() {
     const productId = this.route.snapshot.params['productId'];
     this.user = this.userService.getUser();
     const userId = this.user?._id;
 
-    this.productSubscription = this.apiService.getProductDetails(productId).subscribe(product => {
-      this.totalSubs = product.subscribers.length;
-    })
+    this.productSubscription = this.apiService
+      .getProductDetails(productId)
+      .subscribe((product) => {
+        this.totalSubs = product.subscribers.length;
+      });
   }
 
   onSubscribe(event: Event) {
@@ -69,12 +71,14 @@ export class DetailsComponent implements OnInit, OnDestroy {
     const productId = this.route.snapshot.params['productId'];
     this.user = this.userService.getUser();
     const userId = this.user?._id;
-    
-    this.productSubscription = this.apiService.subscribeToProduct(productId, userId).subscribe((sub) => {
-      this.hasSubscribed = true;
-      this.getAllSubscribers();
-      this.router.navigate([`catalog/${productId}`]);
-    });
+
+    this.productSubscription = this.apiService
+      .subscribeToProduct(productId, userId)
+      .subscribe((sub) => {
+        this.hasSubscribed = true;
+        this.getAllSubscribers();
+        this.router.navigate([`catalog/${productId}`]);
+      });
   }
 
   ngOnDestroy(): void {

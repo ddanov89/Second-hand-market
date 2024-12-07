@@ -10,7 +10,7 @@ import { ErrorMessageComponent } from '../../error-message/error-message.compone
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [RouterLink, FormsModule, EmailDirective, ErrorMessageComponent],
+  imports: [RouterLink, FormsModule, EmailDirective],
   templateUrl: './register.component.html',
   styleUrl: './register.component.css',
 })

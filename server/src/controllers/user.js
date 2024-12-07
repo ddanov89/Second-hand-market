@@ -1,10 +1,9 @@
 const { Router } = require('express');
 const { body, validationResult } = require('express-validator');
-const { createToken } = require('../services/jwt');
+const { createToken, decodeToken } = require('../services/jwt');
 const { parseError } = require('../util');
 const { login, register, checkUserId, getUserById } = require('../services/user');
 const { isGuest, isUser } = require('../middlewares/guards');
-const auth = require('../middlewares/auth');
 
 const userRouter = Router();
 
@@ -64,31 +63,22 @@ userRouter.get('/logout', isUser(), (req, res) => {
     res.json(null);
 });
 
-userRouter.get("/users", (req, res) => {
-
-    const user = req.body;
+userRouter.get("/users/profile", async (req, res) => {
+    
+    const user = decodeToken(req);
     
     const token = req.cookies?.token;
+    
+    const userId = user?._id; 
     
     if (token) {
         user.accessToken = token;
     }
-    res.json(user);
-});
-
-userRouter.get('/profile', auth(), async (req, res) => {
-    console.log("We are calling the user on cushions");
-    
-    const { _id: userId } = req.user;
-    console.log("The user is: ", userId);
-    
     const isValid = await checkUserId(userId);
     
     if (!isValid) {
         res.status(400).json({ message: "Resource not found!" });
     }
-    const user = await getUserById(userId).lean();
-    
     res.json(user);
 });
 

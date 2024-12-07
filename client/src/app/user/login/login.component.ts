@@ -15,6 +15,7 @@ import { ErrorMessageComponent } from '../../error-message/error-message.compone
   styleUrl: './login.component.css',
 })
 export class LoginComponent implements OnDestroy {
+  
   domains = DOMAINS;
   errMessage: string | null = '';
   userSubscription: Subscription | null = null;
