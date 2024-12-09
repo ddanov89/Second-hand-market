@@ -64,22 +64,23 @@ userRouter.get('/logout', isUser(), (req, res) => {
 });
 
 userRouter.get("/users/profile", async (req, res) => {
-    
+
     const user = decodeToken(req);
-    
+
     const token = req.cookies?.token;
-    
-    const userId = user?._id; 
-    
+
+    const userId = user?._id;
+
     if (token) {
         user.accessToken = token;
     }
     const isValid = await checkUserId(userId);
-    
+
     if (!isValid) {
         res.status(400).json({ message: "Resource not found!" });
+    } else {
+        res.json(user);
     }
-    res.json(user);
 });
 
 module.exports = { userRouter };
